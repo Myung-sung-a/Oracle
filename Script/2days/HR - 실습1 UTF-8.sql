@@ -387,7 +387,7 @@ from employee;
 
 -- TO_CHAR(date, 'YYYYMMDD') : 날짜 형식을 'YYYYMMDD' 형식으로 출력 시 char 타입으로 변환해서 출력
     -- YYYY : 년도
-    -- MM : 월
+    -- MM : 월 , MON     <-- 월의 이름으로 출력
     -- DD : 일
     -- DAY : 요일의 자세한 정보 (월요일,화요일)
     -- DY : 요일 (월,화)
@@ -419,7 +419,7 @@ select ename, salary, to_char(salary, 'L999,999'), to_char(salary, 'L000,000')
 from employee;
 
 -- to_date ('char', 'format') : char (문자) --> 날짜형식으로 변환
--- to_date (number, 'format') : 숫자를 --> 날짜형식으로 변환
+-- to_date ('number, 'format') : 숫자를 --> 날짜형식으로 변환
 
 select sysdate, 
     sysdate - 20000101      -- sysdate : date, 20000101 : Number
@@ -448,7 +448,7 @@ select trunc (sysdate - to_date (20000101, 'YYYYMMDD'))
 from dual;
 
 -- employee 테이블에서 81년 2월 22일 입사한 사원을 검색하는데
-    -- '02-22-1981' 문자열 포멧을 date 형식으로 변환해서 검색
+    -- '02-22-1981' 문자열 포맷을 date 형식으로 변환해서 검색
 select ename, hiredate
 from employee
 where hiredate = to_date('02-22-1981', 'MM-DD-YYYY');
@@ -456,6 +456,34 @@ where hiredate = to_date('02-22-1981', 'MM-DD-YYYY');
 -- 2000년 12월 25일부터 오늘까지 총 몇달이 지났는지 출력, 소수점이하는 모두 잘라내기. sysdate
 select trunc(months_between (sysdate, to_date('2000/12/25', 'YYYY/MM/DD')))"달의 차"
 from dual;
+
+-- 문자열 ('2022-12-07')  ==>  date 타입으로 변환
+select to_date ('2022-12-07', 'YYYY-MM-DD')
+from dual;
+
+-- 숫자를 ==> date 타입으로 변환
+select to_date (12072022, 'MMDDYYYY')
+from dual;
+
+
+select sysdate, to_char (sysdate, 'YYYY-MM-DD-DY HH:MI:SS')
+from dual;
+
+
+-- to_number : 문자형 데이터를 숫자형으로 변환
+
+select 10000 - 5000
+from dual;
+
+select '10000' - '5000'     -- 자동으로 변환 됨: 문자열 --> 숫자형으로
+from dual;
+
+select '10,000' - '5,000'    -- to_number로 변환이 필요함.   
+from dual;
+
+select to_number ('10,000', '999,999') - to_number ('5,000','9,999') 숫자변환계산
+from dual;
+
 
 
 

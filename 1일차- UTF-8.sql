@@ -14,7 +14,7 @@ select * from myTbl;
 -- 1. HR 계정 생성 : 12 버전부터 계정을 생성시 계정명 앞에 C##을 붙여야 한다.
 --      system 계정으로 접속한 쿼리창에서 명령을 줘야한다.
 -- HR : 계정명, 암호 : 1234
-create user c##HR identified by 1234 ;
+create user c##HR2 identified by 1234 ;
 
 -- 2. HR 계정의 권한 부여 : 
 /* connect : 원격에서 DB에 접속할 수 있는 권한, 
@@ -22,11 +22,11 @@ create user c##HR identified by 1234 ;
     triger, fuction를 생성, 수정, 삭제
 
 */
- grant connect, resource to c##HR;
+ grant connect, resource to c##HR2;
  
  --3. 테이블 스페이스를 사용할 권한 부여, 
     -- USERS 테이블 스페이스의 사용량을 무제한 사용할 수 있도록 권한 부여
- alter user c##HR quota unlimited on USERS;
+ alter user c##HR2 quota unlimited on USERS;
  
  --4. HR 계정 삭제 - 연결 설정이 되어 있는 경우 삭제가 안됨. 연결을 먼저 삭제 후 계정 삭제
  drop user c##HR;
