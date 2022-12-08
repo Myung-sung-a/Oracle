@@ -30,10 +30,9 @@ having sum(salary)>9000
 group by dno
 
 --6. 부서별 월급의 평균이 2000 이상만 출력
-
 select dno,sum(salary)
 from employee
-having sum(salary)>2000
+having avg(salary)>2000
 group by dno
 
 --7. 월급이 1500 이하는 제외하고 각 부서별로 월급의 평균을 구하되 월급의 평균이 2500이상인 것만 출력 하라.
