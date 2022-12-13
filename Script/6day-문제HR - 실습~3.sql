@@ -1,7 +1,7 @@
 --1.EQUI 조인을 사용하여 SCOTT 사원의 부서 번호와 부서 이름을 출력 하시오.
 select e.ename, e.dno,dname
 from employee e, department d
-where e.dno = d.dno and e.ename='SCOTT'
+where e.dno = d.dno and e.ename='SCOTT'         -- 공통 키 컬럼을 찾아야 한다.
 
 --2. INNER JOIN과 ON 연산자를 사용하여 사원이름과 함께 그 사원이 소속된 부서이름과 지역명을 출력하시오.
 select e.ename,dname,loc
@@ -14,11 +14,20 @@ order by dname
 select e.eno 사원번호, loc 지역명, job 담당업무
 from employee e inner join department d
 on e.dno = d.dno and d.dno = 10
+----------------------------------------
+select e.eno 사원번호, loc 지역명, job 담당업무, dno 부서번호
+from employee e inner join department d
+using (dno)
+where dno = 10
 
 --4. NATURAL JOIN을 사용하여 커밋션을 받는 모든 사원의 이름, 부서이름, 지역명을 출력 하시오. 
 select ename, dname, loc
 from employee natural join department
 where not commission is null;
+---------------------------------
+select ename, dname, loc
+from employee e natural join department d
+where commission is not null
 
 --5. EQUI 조인과 WildCard ( _ , %)를 사용하여 이름에 A 가 포함된 모든 사원의 이름과 부서명을 출력 하시오. 
 select e.ename, d.dname
@@ -44,12 +53,18 @@ from employee e, employee m
 where e.manager = m.eno(+)
 order by e.eno desc;
 
+-----------------------------
+select e.ename, e.eno, m.eno, m.ename
+from employee e left outer join employee m
+on e.manager = m.eno
+order by e.eno desc
+
 --9. SELF JOIN을 사용하여 지정한 사원의 이름, 부서번호, 지정한 사원과 동일한 부서에서 근무하는 사원을 출력하시오. 
    --단, 각 열의 별칭은 이름, 부서번호, 동료로 하시오. 
-select e.ename "동료 이름", m.dno 부서번호, m.ename 사원명
+select e.ename 이름, m.dno 부서번호, m.ename 동료
 from employee e, employee m
 where e.dno = m.dno
-and m.ename = 'SCOTT'
+and e.ename = 'SCOTT'
 
 --10. SELF JOIN을 사용하여 WARD 사원보다 늦게 입사한 사원의 이름과 입사일을 출력하시오. 
 select e.ename 사원명, e.hiredate 입사일, m.hiredate "WARD 의 입사일", m.ename
@@ -59,9 +74,15 @@ and m.ename = 'WARD'
 
 --11. SELF JOIN을 사용하여 관리자 보다 먼저 입사한 모든 사원의 이름 및 입사일을 관리자 이름 및 입사일과 함께 출력하시오. 
    -- 단, 각 열의 별칭을 한글로 넣어서 출력 하시오. 
-select m.ename 사원이릅, m.hiredate 사원입사, e.hiredate "관리자 입사", e.ename "관리자 이름"
+select m.ename 사원이름, m.hiredate 사원입사, e.hiredate "관리자 입사", e.ename "관리자 이름"
 from employee e, employee m
 where e.eno = m.manager and m.hiredate < e.hiredate
+
+-------------------------------
+select e.ename 이름, e.hiredate 입사일, m.ename 관리자이름, m.hiredate 관리자입사일
+from employee e join employee m
+on e.manager = m.eno
+where e.hiredate < m.hiredate; 
 
 --1. 사원번호가 7788인 사원과 담당 업무가 같은 사원을 표시(사원이름 과 담당업무) 하시오.
 select m.ename,m.job
@@ -144,7 +165,7 @@ where e.dno = d.dno and d.dname = 'RESEARCH'
 --15. 평균 급여보다 많은 급여를 받고 이름에 M이 포함된 사원과 같은 부서에서 근무하는 사원의 사원번호, 이름, 급여를 표시하시오.
 select eno, ename, salary
 from employee
-where salary > (select avg(salary)from employee)
+where salary > (select avg(salary) from employee)
 and ename like '%M%';
 select ename from employee;
 
