@@ -13,6 +13,14 @@ DROP TABLE member CASCADE CONSTRAINTS PURGE;
 
 DROP TABLE tb_zipcode CASCADE CONSTRAINTS PURGE;
 
+-- 제약 조건 확인
+-- 로그온한 계정의 모든 제약 조건을 출력
+show user;
+
+select * from user_constraints
+where table_name in ('TB_ZIPCODE');
+
+
 
 
 CREATE TABLE member
